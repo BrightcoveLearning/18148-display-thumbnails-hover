@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Display Thumbnails on Hover</title>
+</head>
+
+<style>
+  /* size and style the modal dialog */
+  .vjs-my-custom-modal .vjs-modal-dialog-content {
+    width: 100%;
+    height: 100%;
+    padding-top: 20%;
+    cursor: pointer;
+  }
+  /* display the row of thumbnails */
+  #row {
+    display: table;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  #item {
+    display: table-cell;
+    vertical-align: top;
+  }
+  #item img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+</style>
+
+<body>
+
+  <video id="myPlayerID"
+    data-video-id="5352019498001"
+    data-account="1752604059001"
+    data-player="default"
+    data-embed="default"
+    data-application-id
+    class="video-js"
+    controls muted
+    width="640"
+    height="360"></video>
+  <script src="//players.brightcove.net/1752604059001/default_default/index.min.js"></script>
+
+  <script type="text/javascript">
+    var myPlayer,
+        ePlayer,
+        options = {},
+        thumbs = [],
+        myModal,
+        showOverlay,
+        hideOverlay,
+        newElement = document.createElement('div');
+
+    newElement.setAttribute("id","row");
+
+    videojs('myPlayerID').ready(function(){
+      myPlayer = this;
+      ePlayer = myPlayer.el();
+
+      myPlayer.on('loadstart',function(){
+        // a JSON array of thumbnail URLs is stored in the videos long description field
+        var arr = JSON.parse(myPlayer.mediainfo.longDescription);
+        buildModal(arr);
+
+        showOverlay = function(){
+          // show the overlay
+          if (myModal) {
+            myModal.open();
+          }
+        }
+
+        // show the thumbnail images when a user hovers over the player
+        ePlayer.addEventListener("mouseover",showOverlay);
+
+        hideOverlay = function(){
+          // hide the overlay
+          if (myModal) {
+            myModal.close();
+          }
+        }
+        // hide the thumbnail images when a user moves their cursor away from the player
+        ePlayer.addEventListener("mouseout", hideOverlay);
+
+        // when the thumbnail modal is clicked, remove the event listeners, close and dispose of the modal and start video playback
+        myModal.on("click", function(){
+          ePlayer.removeEventListener('mouseover',showOverlay);
+          ePlayer.removeEventListener('mouseout',hideOverlay);
+          myModal.close();
+          myModal.dispose();
+          myPlayer.play();
+        });
+      })
+    });
+
+    /**
+    * create the modal dialog
+    */
+    function buildModal(array) {
+      // get the thumbnail URLs from the video Long Description field and add to modal dialog content
+      newElement.innerHTML = '<div id="item"><img src="' + array.thumbs[0].image + '"></div><div id="item"><img src="' + array.thumbs[1].image + '"></div><div id="item"><img src="'+ array.thumbs[2].image + '"></div><div id="item"><img src="' + array.thumbs[3].image + '"></div>';
+      console.log("newElement: ",newElement);
+      options.content = newElement;
+      // add a label text
+      options.label = 'thumbnail images';
+      // configure modal dialog settings
+      options.temporary = false;
+      options.uncloseable = true;
+
+      // create the modal dialog and add it to the player
+      var ModalDialog = videojs.getComponent('ModalDialog');
+      myModal = new ModalDialog(myPlayer, options);
+      myModal.addClass('vjs-my-custom-modal');
+      myPlayer.addChild(myModal);
+     }
+  </script>
+
+</body>
+
+</html>
