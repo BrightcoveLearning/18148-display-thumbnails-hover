@@ -1,0 +1,22 @@
+/* size and style the modal dialog */
+.vjs-my-custom-modal .vjs-modal-dialog-content {
+  width: 100%;
+  height: 100%;
+  padding-top: 20%;
+  cursor: pointer;
+}
+/* display the row of thumbnails */
+#row {
+  display: table;
+  border-collapse: collapse;
+  width: 100%;
+}
+#item {
+  display: table-cell;
+  vertical-align: top;
+}
+#item img {
+  display: block;
+  width: 100%;
+  height: auto;
+}

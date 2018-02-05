@@ -1,52 +1,5 @@
-<!doctype html>
-<html>
-
-<head>
-  <meta charset="UTF-8">
-  <title>Display Thumbnails on Hover</title>
-</head>
-
-<style>
-  /* size and style the modal dialog */
-  .vjs-my-custom-modal .vjs-modal-dialog-content {
-    width: 100%;
-    height: 100%;
-    padding-top: 20%;
-    cursor: pointer;
-  }
-  /* display the row of thumbnails */
-  #row {
-    display: table;
-    border-collapse: collapse;
-    width: 100%;
-  }
-  #item {
-    display: table-cell;
-    vertical-align: top;
-  }
-  #item img {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-</style>
-
-<body>
-
-  <video id="myPlayerID"
-    data-video-id="5352019498001"
-    data-account="1752604059001"
-    data-player="default"
-    data-embed="default"
-    data-application-id
-    class="video-js"
-    controls muted
-    width="640"
-    height="360"></video>
-  <script src="//players.brightcove.net/1752604059001/default_default/index.min.js"></script>
-
-  <script type="text/javascript">
-    var myPlayer,
+videojs.registerPlugin('thumbnailsHover', function() {
+    var myPlayer = this,
         ePlayer,
         options = {},
         thumbs = [],
@@ -115,8 +68,5 @@
       myModal.addClass('vjs-my-custom-modal');
       myPlayer.addChild(myModal);
      }
-  </script>
 
-</body>
-
-</html>
+});
