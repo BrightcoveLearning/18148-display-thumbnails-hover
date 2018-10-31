@@ -9,7 +9,7 @@
 
 <body>
 
-  <video id="myPlayerID"
+  <video-js id="myPlayerID"
     data-video-id="5352019498001"
     data-account="1752604059001"
     data-player="default"
@@ -18,11 +18,11 @@
     class="video-js"
     controls muted
     width="640"
-    height="360"></video>
-  <script src="//players.brightcove.net/1752604059001/default_default/index.min.js"></script>
+    height="360"></video-js>
+  <script src="https://players.brightcove.net/1752604059001/default_default/index.min.js"></script>
 
   <script type="text/javascript" src="thumbnails-hover.js"></script>
-  <script>videojs('myPlayerID').thumbnailsHover();</script>
+  <script>videojs.getPlayer('myPlayerID').thumbnailsHover();</script>
 
 </body>
 
